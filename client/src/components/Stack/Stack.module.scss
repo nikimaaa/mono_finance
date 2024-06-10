@@ -1,0 +1,7 @@
+.stack {
+  display: flex;
+}
+
+.stack > * {
+  flex: 1 1 auto;
+}

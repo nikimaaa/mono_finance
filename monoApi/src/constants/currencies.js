@@ -1,0 +1,2 @@
+const UAH_CURRENCY_CODE = 980;
+const USD_CURRENCY_CODE = 840;
