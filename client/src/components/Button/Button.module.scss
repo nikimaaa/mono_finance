@@ -1,0 +1,21 @@
+.button {
+  padding: 10px 10px;
+  background-color: #57585E;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 5px;
+
+  svg {
+    opacity: 0.5;
+    transition: opacity .3s ease-in-out;
+  }
+}
+
+.button:disabled {
+  opacity: 0.5;
+}
+
+.button:hover svg{
+  opacity: 0.8;
+}
