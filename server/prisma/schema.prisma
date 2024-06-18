@@ -8,8 +8,20 @@ datasource db {
 }
 
 model Reserve {
-  id    Int     @id @default(autoincrement())
+  id    Int      @id @default(autoincrement())
   name  String
-  price Int?
+  price Decimal @db.Money
   link  String?
+}
+
+model Setting {
+  key   String      @id
+  value String
+  type  SettingType  @default(STRING)
+}
+
+enum SettingType {
+  STRING
+  NUMBER
+  OBJECT
 }
