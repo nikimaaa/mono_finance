@@ -11,6 +11,12 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
         ws: true,
+      },
+      '/assets': {
+        target: 'http://localhost:8091',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
       }
     }
   }

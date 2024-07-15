@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import styles from "./ReservedFinance.module.scss";
 import Card from "../Card/Card.jsx";
 import Stack from "../Stack/Stack.jsx";
@@ -9,6 +9,8 @@ import Input from "../Input/Input.jsx";
 import formatMoney from "../../helpers/formatCurrency.js";
 import {TrashFill, PlusSquareFill} from "react-bootstrap-icons";
 import Divider from "../Divider/Divider.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {createReserve, deleteReserve, fetchReserves} from "../../store/reserves/reserves.actions.js";
 
 const defaultReserveForm = {
     name: "",
@@ -16,7 +18,10 @@ const defaultReserveForm = {
     link: ""
 };
 
-const ReservedFinance = ({addReserve, deleteReserve, reserves}) => {
+const ReservedFinance = () => {
+    const dispatch = useDispatch();
+    const {items: reserves, isLoading, isFetched} = useSelector(state => state.reserves);
+    console.log(reserves, isLoading, isFetched)
     const [modalOpen, openModal, closeModal] = useActive(false);
     const [reserveForm, setReserveForm] = useState(defaultReserveForm);
 
@@ -39,9 +44,21 @@ const ReservedFinance = ({addReserve, deleteReserve, reserves}) => {
     }, [reserveForm]);
 
     const onAdd = useCallback(() => {
-        addReserve(reserveForm);
-        onModalClose();
+        dispatch(createReserve(reserveForm)).then(() => {
+            dispatch(fetchReserves());
+            onModalClose();
+        })
     }, [reserveForm]);
+
+    const onDelete = useCallback((id) => {
+        dispatch(deleteReserve(id)).then(() => {
+            dispatch(fetchReserves());
+        })
+    }, []);
+
+    useEffect(() => {
+        dispatch(fetchReserves());
+    }, []);
 
     return (
         <Card padding={0}>
@@ -60,14 +77,15 @@ const ReservedFinance = ({addReserve, deleteReserve, reserves}) => {
             <Divider/>
                 {
                     reserves.map((reserve) => {
+                        const content = !!reserve.link ? <a target="_blank" href={reserve.link}>{reserve.name}</a> : <div>{reserve.name}</div>;
                         return (
                             <React.Fragment key={reserve.id}>
                                 <Stack style={{padding: "10px 20px"}}>
-                                    <div>{reserve.name}</div>
+                                    {content}
                                     <div style={{flex: "none"}}>
                                         <Stack alignItems="center">
                                             <div>-{formatMoney(reserve.price)}</div>
-                                            <TrashFill width={15} height={15} style={{cursor: "pointer"}} onClick={() => deleteReserve(reserve.id)}/>
+                                            <TrashFill width={15} height={15} style={{cursor: "pointer"}} onClick={() => onDelete(reserve.id)}/>
                                         </Stack>
                                     </div>
                                 </Stack>

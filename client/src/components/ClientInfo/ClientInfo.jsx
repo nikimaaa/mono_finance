@@ -45,7 +45,7 @@ const ClientInfo = ({clientInfo, reserves}) => {
     }, [realBalance, monthCost]);
 
     const reservesPrice = useMemo(() => {
-        return reserves.reduce((acc, current) => acc + current.price, 0);
+        return reserves.reduce((acc, current) => acc + +current.price, 0);
     }, [reserves]);
 
     const moneyAfterReserves = useMemo(() => {

@@ -17,6 +17,10 @@
 }
 
 body {
-  background-color: #171821;
-  color: #fff;
+  background-color: #282B30;
+  color: #D8D9DE;
+}
+
+a, a:visited, a:hover, a:active {
+  color: #ffffff;
 }
