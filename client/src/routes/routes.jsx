@@ -9,19 +9,19 @@ const routes = [
     {
         path: "/",
         element: <Dashboard/>,
-        label: "Dashboard",
+        label: "Главная",
         icon: <SpaceDashboardIcon/>
     },
     {
         path: "/reserves",
         element: <Reserves/>,
-        label: "Reserves",
+        label: "Резервы",
         icon: <ShoppingBagIcon/>
     },
     {
         path: "/transactions",
         element: <Transactions/>,
-        label: "Transactions",
+        label: "Транзакции",
         icon: <ReceiptLongIcon/>
     },
 ]
