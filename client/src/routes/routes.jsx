@@ -10,20 +10,20 @@ const routes = [
         path: "/",
         element: <Dashboard/>,
         label: "Главная",
-        icon: <SpaceDashboardIcon/>
-    },
-    {
-        path: "/reserves",
-        element: <Reserves/>,
-        label: "Резервы",
-        icon: <ShoppingBagIcon/>
+        Icon: SpaceDashboardIcon
     },
     {
         path: "/transactions",
         element: <Transactions/>,
         label: "Транзакции",
-        icon: <ReceiptLongIcon/>
+        Icon: ReceiptLongIcon
     },
+    {
+        path: "/reserves",
+        element: <Reserves/>,
+        label: "Резервы",
+        Icon: ShoppingBagIcon
+    }
 ]
 
 export default routes;

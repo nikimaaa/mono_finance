@@ -3,7 +3,7 @@ import {fetchSettings, fetchSingleSetting, updateSetting} from "./settings.actio
 
 const initialState = {
     data: {},
-    isFetched: true,
+    isFetched: false,
     isLoading: false
 }
 

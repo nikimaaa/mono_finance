@@ -8,6 +8,9 @@ import '@fontsource/roboto/700.css';
 import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {Provider} from "react-redux";
 import store from "./store"
+import setupDayjs from "./utils/setupDayjs.js";
+
+setupDayjs();
 
 const darkTheme = createTheme({
     palette: {

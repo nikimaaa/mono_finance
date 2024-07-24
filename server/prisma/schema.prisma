@@ -8,16 +8,46 @@ datasource db {
 }
 
 model Reserve {
-  id    Int      @id @default(autoincrement())
-  name  String
-  price Decimal @db.Money
-  link  String?
+  id            Int      @id @default(autoincrement())
+  name          String
+  price         Decimal  @db.Money
+  link          String?
+  createdAt     DateTime @default(now())
 }
 
 model Setting {
   key   String      @id
   value String
   type  SettingType  @default(STRING)
+}
+
+model Transaction {
+  id                String      @id
+  receiptId         String?
+  comment           String?
+  description       String
+  mcc               Int
+  originalMcc       Int
+  amount            Int
+  operationAmount   Int
+  currencyCode      Int
+  commissionRate    Int
+  cashbackAmount    Int
+  balance           Int
+  hold              Boolean
+  occurredAt        DateTime
+}
+
+model Account {
+  id                String      @id
+  sendId            String?
+  currencyCode      Int?
+  cashbackType      String?
+  balance           Int
+  creditLimit       Int
+  maskedPan         String[]
+  type              String
+  iban              String
 }
 
 enum SettingType {

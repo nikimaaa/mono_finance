@@ -1,8 +1,20 @@
 const dbClient = require("../dbClient");
 
 class ReserveService {
-    async findAll() {
-        return dbClient.reserve.findMany();
+    async findAll(query) {
+        return dbClient.reserve.findMany({
+            where: {name: {contains: query.query || "", mode: 'insensitive'}},
+            orderBy: {[query.orderBy || "createdAt"]: query.sortOrder || "desc"},
+        });
+    }
+
+    async total() {
+        const aggregation = await dbClient.reserve.aggregate({
+            _sum: {
+                price: true
+            }
+        });
+        return aggregation._sum.price;
     }
 
     async deleteOne(id) {

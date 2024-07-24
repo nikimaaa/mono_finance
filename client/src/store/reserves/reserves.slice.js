@@ -1,9 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {createReserve, deleteReserve, fetchReserves, updateReserve} from "./reserves.actions.js";
+import {createReserve, deleteReserve, fetchReserves, fetchReservesTotal, updateReserve} from "./reserves.actions.js";
 
 const initialState = {
     items: [],
-    isFetched: true,
+    total: 0,
+    isFetchedTotal: false,
+    isFetched: false,
     isLoading: false
 }
 
@@ -41,6 +43,13 @@ export const reservesSlice = createSlice({
                 state.items = state.items.map(
                     (item) => item.id === updatedReserve ? updatedReserve : item
                 );
+            })
+            .addCase(fetchReservesTotal.pending, (state) => {
+                state.isFetchedTotal = false;
+            })
+            .addCase(fetchReservesTotal.fulfilled, (state, action) => {
+                state.isFetchedTotal = true;
+                state.total = action.payload;
             })
     }
 })
