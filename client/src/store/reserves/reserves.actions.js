@@ -3,8 +3,24 @@ import axios from "axios";
 
 export const fetchReserves = createAsyncThunk(
     'reserves/fetch',
+    async (filters) => {
+        const {sort, ...rest} = filters;
+        const [sortBy, sortOrder] = sort.split("-");
+        const queryObject = {...rest, sortBy, sortOrder}
+
+        const searchParams = new URLSearchParams(queryObject);
+        const queryString = searchParams.toString();
+
+        const response = await axios.get(`/api/reserves?${queryString}`);
+
+        return response.data;
+    }
+);
+
+export const fetchReservesTotal = createAsyncThunk(
+    'reserves/fetchTotal',
     async () => {
-        const response = await axios.get('/api/reserves');
+        const response = await axios.get(`/api/reserves/total`);
 
         return response.data;
     }

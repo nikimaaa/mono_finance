@@ -1,49 +1,27 @@
 import React from "react"
-import {Box, Card, Stack, Typography} from "@mui/material";
-import NorthIcon from '@mui/icons-material/North';
-import SouthIcon from '@mui/icons-material/South';
-import WelcomeCard from "./components/WelcomeCard/WelcomeCard";
+import {Box, Stack} from "@mui/material";
+import BalanceCard from "./components/BalanceCard/BalanceCard.jsx";
+import LastTransactionsCard from "./components/LastTransactionsCard/LastTransactionsCard.jsx";
+import TitleCard from "../../../components/TitleCard/TitleCard.jsx";
+import CurrencyCard from "./components/CurrencyCard/CurrencyCard.jsx";
 
 const Dashboard = () => {
     return (
         <Box sx={{p: "30px"}}>
             <Stack spacing={2}>
                 <Stack justifyContent="space-between" direction="row" spacing={2}>
-                    <WelcomeCard/>
-                    <Card sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, minWidth: 200}}>
-                        <Stack sx={{height: "100%"}} justifyContent="space-between">
-                            <Stack direction="row" alignItems="center" spacing={0.5}>
-                                <SouthIcon color={"error"}/>
-                                <Typography variant="h5" component="h4">Расходы</Typography>
-
-                            </Stack>
-
-                            <Typography variant="h6" component="h4" sx={{color: "#F44336"}}>-10,000$</Typography>
-                        </Stack>
-                    </Card>
-                    <Card sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, minWidth: 200}}>
-                        <Stack sx={{height: "100%"}} justifyContent="space-between">
-                            <Stack direction="row" alignItems="center" spacing={0.5}>
-                                <NorthIcon color="success"/>
-                                <Typography variant="h5" component="h4">Доходы</Typography>
-                            </Stack>
-
-                            <Typography variant="h6" component="h4" sx={{color: "#66BB6A"}}>+10,000$</Typography>
-                        </Stack>
-
-                    </Card>
+                    <TitleCard
+                        imageSrc="/assets/money.webp"
+                        title="Добро пожаловать"
+                        subtitle="Здесь вы можете посмотреть информацию о последних транзакциях, состоянии счёта и расходах за месяц."
+                    />
+                    <CurrencyCard value={1000}/>
                 </Stack>
                 <Stack direction="row" spacing={2}>
-                    <Card sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 1 auto"}}>
-                        <Typography variant="h5" component="h4">50,000$</Typography>
-                    </Card>
-                    <Card sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 1 auto"}}>
-                        <Typography variant="h5" component="h4">Последние транзакции</Typography>
-                    </Card>
+                    <BalanceCard/>
+                    <LastTransactionsCard/>
                 </Stack>
             </Stack>
-
-
         </Box>
     )
 }
