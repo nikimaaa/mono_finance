@@ -7,7 +7,7 @@ const TitleCard = ({title, subtitle, imageSrc, imageSize = 110}) => {
             <Stack direction="row" justifyContent="space-between" spacing={2}>
                 <Stack spacing={3}>
                     <Typography variant="h5" component="h4">{title}</Typography>
-                    <Typography variant="subtitle1" component="p" color="textSecondary">
+                    <Typography variant="subtitle1" component="p" color="textSecondary" sx={{maxWidth: 700}}>
                         {subtitle}
                     </Typography>
                 </Stack>

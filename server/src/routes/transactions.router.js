@@ -6,8 +6,9 @@ const validate = require("../helpers/validate");
 const transactionsRouter = Router();
 
 transactionsRouter.get("/summary", async (req, res) => {
+    const {start, end} = req.query;
     const transactionsService = new TransactionsService();
-    const data = await transactionsService.summary();
+    const data = await transactionsService.summary(start, end);
 
     res.send(data);
 });

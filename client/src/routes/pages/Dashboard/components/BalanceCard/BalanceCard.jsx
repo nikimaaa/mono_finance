@@ -18,8 +18,6 @@ const BalanceCard = () => {
         isLoading
     } = useSelector((state) => state.balance);
 
-    console.log({total})
-
     useEffect(() => {
         dispatch(fetchBalance());
     }, []);

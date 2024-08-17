@@ -18,6 +18,7 @@ export const reservesSlice = createSlice({
                 state.isFetched = false;
             })
             .addCase(fetchReserves.fulfilled, (state, action) => {
+                console.log("fetchReserves")
                 state.isFetched = true;
                 state.items = action.payload;
             })

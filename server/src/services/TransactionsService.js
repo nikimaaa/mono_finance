@@ -36,12 +36,13 @@ class TransactionsService {
         return {pagesCount, transactions: normalizedTransactions}
     }
 
-    async summary() {
+    async summary(start, end) {
         const response = await dbClient.$queryRaw`
             SELECT
             SUM(CASE WHEN amount >= 0 THEN amount ELSE 0 END) as incomes,
             SUM(CASE WHEN amount < 0 THEN amount ELSE 0 END) as expenses
             FROM "Transaction"
+            WHERE "occurredAt" BETWEEN ${new Date(start)} AND ${new Date(end)}
         `;
 
         const expenses = Number(response[0].expenses);

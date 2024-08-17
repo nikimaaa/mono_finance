@@ -19,8 +19,9 @@ export const fetchTransactions = createAsyncThunk(
 
 export const fetchTransactionsSummary = createAsyncThunk(
     'transactions/fetchSummary',
-    async () => {
-        const response = await axios.get('/api/transactions/summary');
+    async (params) => {
+        const queryParams = new URLSearchParams(params);
+        const response = await axios.get(`/api/transactions/summary?${queryParams.toString()}`);
 
         return response.data;
     }

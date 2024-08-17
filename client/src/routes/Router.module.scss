@@ -1,3 +1,10 @@
 .content {
   padding-left: 300px;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 900px) {
+  .content {
+    padding: 0;
+  }
 }
