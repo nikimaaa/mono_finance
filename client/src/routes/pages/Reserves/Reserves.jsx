@@ -91,8 +91,6 @@ const Reserves = () => {
     }, [updateReserveForm, fetchData]);
 
     const onEdit = useCallback((id) => {
-        console.log(id)
-        console.log(reserves.find((reserve) => reserve.id === id))
         setUpdateReserveForm(reserves.find((reserve) => reserve.id === id));
         openUpdateModal();
     }, [reserves]);
@@ -134,7 +132,7 @@ const Reserves = () => {
                     <TitleCard
                         imageSrc="/assets/financialPlan.png"
                         title="Резервы"
-                        description="пфцпфцпфцп фцпфцп фцпп"
+                        description="Здесь можно зарезервировать финансы для будущих покупок. Они будут учитываться при подсчётах остатка в балансе."
                     />
                     <TotalCard
                         isLoading={!isFetchedTotal}
