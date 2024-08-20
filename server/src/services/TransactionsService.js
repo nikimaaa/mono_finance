@@ -51,6 +51,48 @@ class TransactionsService {
         return {expenses, incomes}
     }
 
+    async dailyStat() {
+        const startDate = dayjs().subtract(10, "days").toDate();
+        const response = await dbClient.$queryRaw`
+            select
+            CAST("occurredAt" as DATE) as date,
+            SUM(case when amount < 0 then -amount else 0 end) as expenses,
+            SUM(case when amount > 0 then amount else 0 end) as incomes
+            from "Transaction" t
+            where "occurredAt" > ${startDate}
+            group by date
+            order by date ASC
+        `
+
+        return response.map((row) => ({
+            ...row,
+            expenses: Number(row.expenses) / 100,
+            incomes: Number(row.incomes) / 100
+        }));
+    }
+
+    async categoryStat() {
+        const startDate = dayjs().startOf("month").toDate();
+        const endDate = dayjs().endOf("month").toDate();
+
+        const response = await dbClient.$queryRaw`
+            select mcc, SUM(amount) as amount, 
+            ROUND(cast(SUM(t.amount) as DECIMAL) / (SELECT SUM(t2.amount) FROM "Transaction" t2 where amount < 0 AND "occurredAt" BETWEEN ${startDate} AND ${endDate}) * 100, 2) as percentage
+            from "Transaction" t
+            where amount < 0 AND "occurredAt" BETWEEN ${startDate} AND ${endDate}
+            group by mcc
+            order by mcc
+        `;
+
+        return response.map((row) => ({
+            ...row,
+            mccTitle: mccData[row.mcc]?.shortDescription || "Без категории",
+            smile: mccData[row.mcc]?.smile || "?",
+            amount: Number(row.amount) / 100,
+            percentage: Number(row.percentage)
+        }));
+    }
+
     async sync() {
         let from = dayjs().startOf("month").unix();
         const to = dayjs().unix();

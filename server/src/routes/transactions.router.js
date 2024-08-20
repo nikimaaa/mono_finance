@@ -5,6 +5,20 @@ const validate = require("../helpers/validate");
 
 const transactionsRouter = Router();
 
+transactionsRouter.get("/statistic/category", async (req, res) => {
+    const transactionsService = new TransactionsService();
+    const data = await transactionsService.categoryStat();
+
+    res.send(data);
+});
+
+transactionsRouter.get("/statistic/daily", async (req, res) => {
+    const transactionsService = new TransactionsService();
+    const data = await transactionsService.dailyStat();
+
+    res.send(data);
+});
+
 transactionsRouter.get("/summary", async (req, res) => {
     const {start, end} = req.query;
     const transactionsService = new TransactionsService();

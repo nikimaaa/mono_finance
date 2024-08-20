@@ -1,5 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {fetchTransactions, fetchTransactionsSummary} from "./transactions.actions.js";
+import {
+    fetchTransactions,
+    fetchTransactionsCategoriesStat,
+    fetchTransactionsDailyStat,
+    fetchTransactionsSummary
+} from "./transactions.actions.js";
 
 const initialState = {
     items: [],
@@ -8,6 +13,14 @@ const initialState = {
         isFetched: false,
         incomes: 0,
         expenses: 0
+    },
+    dailyStat: {
+      isFetched: false,
+      data: []
+    },
+    categoriesStat: {
+        isFetched: false,
+        data: []
     },
     isFetched: false
 }
@@ -47,6 +60,30 @@ export const transactionsSlice = createSlice({
             })
             .addCase(fetchTransactionsSummary.rejected, (state, action) => {
                 state.summary.isFetched = true;
+            })
+            .addCase(fetchTransactionsDailyStat.pending, (state) => {
+                state.dailyStat.isFetched = false;
+            })
+            .addCase(fetchTransactionsDailyStat.fulfilled, (state, action) => {
+                const data = action.payload;
+
+                state.dailyStat.isFetched = true;
+                state.dailyStat.data = data;
+            })
+            .addCase(fetchTransactionsDailyStat.rejected, (state, action) => {
+                state.dailyStat.isFetched = true;
+            })
+            .addCase(fetchTransactionsCategoriesStat.pending, (state) => {
+                state.categoriesStat.isFetched = false;
+            })
+            .addCase(fetchTransactionsCategoriesStat.fulfilled, (state, action) => {
+                const data = action.payload;
+
+                state.categoriesStat.isFetched = true;
+                state.categoriesStat.data = data;
+            })
+            .addCase(fetchTransactionsCategoriesStat.rejected, (state, action) => {
+                state.categoriesStat.isFetched = true;
             })
     }
 })

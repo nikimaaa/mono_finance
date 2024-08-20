@@ -15,7 +15,7 @@ const LastTransactionsCard = () => {
 
     return (
         <Card
-            sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 1 auto"}}>
+            sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 1 500px"}}>
             <Stack spacing={1}>
                 <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
                     <Typography variant="h5" component="h4">Последние транзакции</Typography>

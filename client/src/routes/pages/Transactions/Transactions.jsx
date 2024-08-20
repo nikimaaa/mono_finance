@@ -68,7 +68,7 @@ const Transactions = () => {
                 <Box padding={8}>
                     <EmptyState
                         title="Ничего не найдено"
-                        subtitle="Похоже что вы еще не производили оплату вашей картой"
+                        description="Похоже что вы еще не производили оплату вашей картой"
                         imageSrc={"/assets/emptyState.png"}
                     />
                 </Box>
@@ -92,10 +92,10 @@ const Transactions = () => {
     return (
         <Box sx={{p: "30px"}}>
             <Stack spacing={2}>
-                <Stack justifyContent="space-between" direction="row" gap={2} flexWrap="wrap">
+                <Stack justifyContent="space-between" direction="row" gap={2} flexWrap="wrap" alignContent="stretch">
                     <TitleCard
                         title="Транзакции"
-                        subtitle="Здесь можно посмотреть список транзакций осуществленных через monobank, а также общую сумму доходов и расходов за последний месяц."
+                        description="Здесь можно посмотреть список транзакций осуществленных через monobank, а также общую сумму доходов и расходов за последний месяц."
                         imageSrc="/assets/transactions2.webp"
                     />
                     <Stack justifyContent="space-between" direction="row" gap={2} flexWrap="wrap">

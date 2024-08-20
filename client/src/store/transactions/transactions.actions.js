@@ -26,3 +26,21 @@ export const fetchTransactionsSummary = createAsyncThunk(
         return response.data;
     }
 )
+
+export const fetchTransactionsDailyStat = createAsyncThunk(
+    'transactions/dailyStat',
+    async () => {
+            const response = await axios.get(`/api/transactions/statistic/daily`);
+
+            return response.data;
+    }
+);
+
+export const fetchTransactionsCategoriesStat = createAsyncThunk(
+    'transactions/categoriesStat',
+    async () => {
+        const response = await axios.get(`/api/transactions/statistic/category`);
+
+        return response.data;
+    }
+)

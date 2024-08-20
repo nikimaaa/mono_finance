@@ -134,7 +134,7 @@ const Reserves = () => {
                     <TitleCard
                         imageSrc="/assets/financialPlan.png"
                         title="Резервы"
-                        subtitle="пфцпфцпфцп фцпфцп фцпп"
+                        description="пфцпфцпфцп фцпфцп фцпп"
                     />
                     <TotalCard
                         isLoading={!isFetchedTotal}

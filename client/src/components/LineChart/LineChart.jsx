@@ -1,6 +1,6 @@
 import { ResponsiveLine } from '@nivo/line'
 
-const Chart = ({ data /* see data tab */ }) => (
+const LineChart = ({ data /* see data tab */ }) => (
     <ResponsiveLine
         isInteractive={false}
         theme={{
@@ -12,7 +12,7 @@ const Chart = ({ data /* see data tab */ }) => (
                 }
             }
         }}
-        margin={{top: 5}}
+        margin={{top: 5, bottom: 20}}
         colors={['#4872fb']}
         data={data}
         xScale={{ type: 'point' }}
@@ -45,4 +45,4 @@ const Chart = ({ data /* see data tab */ }) => (
     />
 )
 
-export default Chart;
+export default LineChart;

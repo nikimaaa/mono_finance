@@ -23,7 +23,9 @@ const TransactionsList = ({transactions}) => {
                             <ListItemText sx={{width: "25%"}}>
                                 {mccInfo.smile} {mccInfo.shortDescription}
                             </ListItemText>
-                            <ListItemText sx={{textAlign: "right", width: "25%"}}>
+                            <ListItemText
+                                sx={{textAlign: "right", width: "25%", color: amount > 0 ? "#66BB6A" : "#F44336"}}
+                            >
                                 {amount > 0 ? "+" : ""}
                                 {formatCurrency(amount / 100)}
                             </ListItemText>
