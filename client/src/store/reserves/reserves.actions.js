@@ -47,7 +47,7 @@ export const deleteReserve = createAsyncThunk(
 export const updateReserve = createAsyncThunk(
     'reserve/update',
     async (reserve) => {
-        const response = await axios.put(`/api/reserves/${reserve.id}`, reserve);
+        const response = await axios.put(`/api/reserves`, reserve);
 
         return response.data;
     }

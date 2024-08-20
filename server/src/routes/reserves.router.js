@@ -23,6 +23,13 @@ reservesRouter.get("", async (req, res) => {
     res.send(data);
 });
 
+reservesRouter.put("", express.json(), async (req, res) => {
+    const reserveData = req.body;
+    const reserveService = new ReserveService();
+    const data = await reserveService.update(reserveData);
+    res.send(data);
+})
+
 reservesRouter.get("/total", async (req, res) => {
     const reserveService = new ReserveService();
     const data = await reserveService.total();

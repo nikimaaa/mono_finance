@@ -10,7 +10,7 @@ import {Link, useLocation} from "react-router-dom";
 
 const Navigation = () => {
     const location = useLocation();
-    console.log(location)
+
     return (
         <div className={styles.main_nav}>
             <List disablePadding>
@@ -21,9 +21,9 @@ const Navigation = () => {
                             <ListItem disablePadding>
                                 <ListItemButton url={path}>
                                     <ListItemIcon>
-                                        <Icon sx={{fill: isActive ? "#2B4BAE" : "#FFFFFF"}}/>
+                                        <Icon sx={{fill: isActive ? "#4872fb" : "#FFFFFF"}}/>
                                     </ListItemIcon>
-                                    <ListItemText primary={label} sx={{color: isActive ? "#2B4BAE" : "#FFFFFF"}}/>
+                                    <ListItemText primary={label} sx={{color: isActive ? "#4872fb" : "#FFFFFF"}}/>
                                 </ListItemButton>
                             </ListItem>
                         </Link>

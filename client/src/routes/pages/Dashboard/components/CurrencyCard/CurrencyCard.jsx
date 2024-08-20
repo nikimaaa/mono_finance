@@ -1,15 +1,51 @@
-import React from 'react';
-import {Card, Stack, Typography} from "@mui/material";
-import formatCurrency from "../../../../../helpers/formatCurrency.js";
+import React, {useEffect, useMemo} from 'react';
+import {Box, Card, CircularProgress, Stack, Typography} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCurrencyHistory} from "../../../../../store/currency/currency.actions.js";
+import formatNumber from "../../../../../helpers/formatNumber.js";
+import LineChart from "../../../../../components/LineChart/LineChart.jsx";
 
 const CurrencyCard = () => {
+    const {data, isLoading} = useSelector((state) => state.currency)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCurrencyHistory());
+    }, []);
+
+    const chartData = useMemo(() => {
+        return [{
+            "id": "rates",
+            data: data.map((item) => ({x: item.exchangedate, y: item.rate}))
+        }]
+    }, [data]);
+
+    if (isLoading) {
+        return (
+            <Card sx={{
+                p: "30px",
+                background: "transparent",
+                border: "2px solid #36393E",
+                borderRadius: 4,
+                minWidth: 400
+            }}>
+                <CircularProgress/>
+            </Card>
+        )
+    }
+
     return (
-        <Card sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, minWidth: 400}}>
-            <Stack sx={{height: "100%"}} justifyContent="space-between">
-                <Stack direction="row" alignItems="center" justifyContent="space-between">
-                    <Typography variant="h5" component="h4">UAH/USD</Typography>
-                    <Typography variant="h5" component="h4">1000.00</Typography>
-                </Stack>
+        <Card sx={{background: "transparent", border: "2px solid #36393E", borderRadius: 4, width: "100%", flex: "1 1 400px"}}>
+            <Stack justifyContent="space-between" sx={{height: "100%"}} gap={2}>
+                <Box padding="30px" paddingBlockEnd={0}>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <Typography variant="h5" component="h4">UAH/USD</Typography>
+                        <Typography variant="h5" component="h4">{formatNumber(data.at(-1).rate)}</Typography>
+                    </Stack>
+                </Box>
+                <div style={{width: "100%", height: 90}}>
+                    <LineChart data={chartData}/>
+                </div>
             </Stack>
         </Card>
     )

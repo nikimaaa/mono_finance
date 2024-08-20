@@ -14,8 +14,9 @@ const reservesRouter = require('./routes/reserves.router');
 const settingsRouter = require("./routes/settings.routes");
 const transactionsRouter = require("./routes/transactions.router");
 const dashboardRouter = require("./routes/dashboard.router");
+const currencyRouter = require("./routes/currency.router");
 
-const PORT = process.env.PORT || 8091;
+const PORT = process.env.APPLICATION_PORT || 8091;
 const transactionsService = new TransactionsService();
 
 const syncTransactionsJob = new CronJob(
@@ -33,7 +34,7 @@ const syncTransactionsJob = new CronJob(
 );
 
 const syncAccountsJob = new CronJob(
-    '0 5,15,25,35,45,55 * * * *',
+    '0 5,15,25,35,45,51 * * * *',
     async () => {
         try {
             console.log(dayjs().format("YYYY-MM-DD HH:mm:ss"));
@@ -65,6 +66,7 @@ app.use('/api/reserves', reservesRouter);
 app.use('/api/settings', settingsRouter);
 app.use('/api/transactions', transactionsRouter);
 app.use('/api/dashboard', dashboardRouter);
+app.use('/api/currency', currencyRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -19,8 +19,27 @@ export const fetchTransactions = createAsyncThunk(
 
 export const fetchTransactionsSummary = createAsyncThunk(
     'transactions/fetchSummary',
+    async (params) => {
+        const queryParams = new URLSearchParams(params);
+        const response = await axios.get(`/api/transactions/summary?${queryParams.toString()}`);
+
+        return response.data;
+    }
+)
+
+export const fetchTransactionsDailyStat = createAsyncThunk(
+    'transactions/dailyStat',
     async () => {
-        const response = await axios.get('/api/transactions/summary');
+            const response = await axios.get(`/api/transactions/statistic/daily`);
+
+            return response.data;
+    }
+);
+
+export const fetchTransactionsCategoriesStat = createAsyncThunk(
+    'transactions/categoriesStat',
+    async () => {
+        const response = await axios.get(`/api/transactions/statistic/category`);
 
         return response.data;
     }

@@ -22,6 +22,7 @@ import EmptyState from "../../../components/EmptyState/EmptyState.jsx";
 import ReservesList from "../Reserves/components/ReservesList/ReservesList.jsx";
 import useNavState from "../../../hooks/useNavState.js";
 import useDebouncedEffect from "use-debounced-effect";
+import dayjs from "dayjs";
 
 const Transactions = () => {
     const {items: transactions, pagesCount, summary, isFetched} = useSelector(state => state.transactions);
@@ -46,7 +47,9 @@ const Transactions = () => {
     }, [filters]);
 
     useEffect(() => {
-        dispatch(fetchTransactionsSummary());
+        const start = dayjs().startOf("month").format("YYYY-MM-DD")
+        const end = dayjs().endOf("month").format("YYYY-MM-DD")
+        dispatch(fetchTransactionsSummary({start, end}));
     }, []);
 
     useDebouncedEffect(() => {
@@ -57,25 +60,48 @@ const Transactions = () => {
         if(!isFetched) {
             return <Stack alignItems="center"><CircularProgress/></Stack>
         }
-        if(isFetched && transactions.length === 0) {
-            return <EmptyState title="Ничего не найдено" subtitle="Попробуйте поменять запрос"/>
+        const isEmptyList = transactions.length <= 0;
+        const isEmptyQuery = Boolean(filters.query.trim());
+
+        if(isFetched && isEmptyList && !isEmptyQuery) {
+            return (
+                <Box padding={8}>
+                    <EmptyState
+                        title="Ничего не найдено"
+                        description="Похоже что вы еще не производили оплату вашей картой"
+                        imageSrc={"/assets/emptyState.png"}
+                    />
+                </Box>
+            )
+        }
+        if(isFetched && isEmptyList) {
+            return (
+                <Box padding={8}>
+                    <EmptyState
+                        title="Транзакций не найдено"
+                        subtitle="Попробуйте поменять запрос"
+                        actions={[{label: "Очистить фильтры", onAction: onQueryClear}]}
+                        imageSrc={"/assets/emptyState.png"}
+                    />
+                </Box>
+            )
         }
         return <TransactionsList transactions={transactions}/>
     }, [isFetched, transactions]);
 
-    console.log(transactions)
-
     return (
         <Box sx={{p: "30px"}}>
             <Stack spacing={2}>
-                <Stack justifyContent="space-between" direction="row" spacing={2}>
+                <Stack justifyContent="space-between" direction="row" gap={2} flexWrap="wrap" alignContent="stretch">
                     <TitleCard
                         title="Транзакции"
-                        subtitle="qwe"
+                        description="Здесь можно посмотреть список транзакций осуществленных через monobank, а также общую сумму доходов и расходов за последний месяц."
                         imageSrc="/assets/transactions2.webp"
                     />
-                    <IncomesCard value={summary.incomes / 100}/>
-                    <ExpensesCard value={summary.expenses / 100}/>
+                    <Stack justifyContent="space-between" direction="row" gap={2} flexWrap="wrap">
+                        <IncomesCard value={summary.incomes / 100}/>
+                        <ExpensesCard value={summary.expenses / 100}/>
+                    </Stack>
                 </Stack>
 
                 <Card sx={{background: "transparent", border: "2px solid #36393E", borderRadius: 4, p: "30px"}}>

@@ -21,7 +21,6 @@ const defaultReserveForm = {
 const ReservedFinance = () => {
     const dispatch = useDispatch();
     const {items: reserves, isLoading, isFetched} = useSelector(state => state.reserves);
-    console.log(reserves, isLoading, isFetched)
     const [modalOpen, openModal, closeModal] = useActive(false);
     const [reserveForm, setReserveForm] = useState(defaultReserveForm);
 

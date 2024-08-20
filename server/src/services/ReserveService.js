@@ -24,6 +24,10 @@ class ReserveService {
     async create(data) {
         return dbClient.reserve.create({data})
     }
+
+    async update(data) {
+        return dbClient.reserve.update({where: {id: data.id}, data});
+    }
 }
 
 module.exports = ReserveService;

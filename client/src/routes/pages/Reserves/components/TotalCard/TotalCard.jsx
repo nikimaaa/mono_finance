@@ -4,9 +4,8 @@ import formatCurrency from "../../../../../helpers/formatCurrency.js";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchReservesTotal} from "../../../../../store/reserves/reserves.actions.js";
 
-const TotalCard = () => {
+const TotalCard = ({isLoading, value}) => {
     const dispatch = useDispatch();
-    const {total: reservesTotal, isFetchedTotal} = useSelector((state) => state.reserves);
 
     useEffect(() => {
         dispatch(fetchReservesTotal());
@@ -18,10 +17,14 @@ const TotalCard = () => {
                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                     <Typography variant="h5" component="h4">Общая сумма</Typography>
                 </Stack>
-                <Typography variant="h5" component="h4">
+                <Typography
+                    variant="h6"
+                    component="h4"
+                    sx={{textAlign: "center"}}
+                >
                     {
-                        isFetchedTotal ?
-                            formatCurrency(reservesTotal) :
+                        !isLoading ?
+                            formatCurrency(value) :
                             <Skeleton variant="rounded" sx={{width: "100%"}} height={30} />
                     }
                 </Typography>
