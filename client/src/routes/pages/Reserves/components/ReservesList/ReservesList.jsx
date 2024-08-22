@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import Divider from "../../../../../components/Divider/Divider.jsx";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import Stack from "../../../../../components/Stack/Stack.jsx";
+import Stack from "@mui/material/Stack"
 
 const ReservesList = ({reserves, onDelete, onEdit}) => {
     return (
@@ -33,7 +33,7 @@ const ReservesList = ({reserves, onDelete, onEdit}) => {
                                     {dayjs(createdAt).fromNow()}
                                 </Typography>
                             </Tooltip>
-                            <Stack gap={20}>
+                            <Stack gap={2} direction="row">
                                 <Tooltip title="Редактировать">
                                     <IconButton
                                         edge="end"

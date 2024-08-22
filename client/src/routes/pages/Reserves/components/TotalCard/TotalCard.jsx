@@ -25,7 +25,7 @@ const TotalCard = ({isLoading, value}) => {
                     {
                         !isLoading ?
                             formatCurrency(value) :
-                            <Skeleton variant="rounded" sx={{width: "100%"}} height={30} />
+                            <Skeleton sx={{width: "100%"}} height={30} />
                     }
                 </Typography>
             </Stack>

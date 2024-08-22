@@ -1,8 +1,28 @@
 import { ResponsiveLine } from '@nivo/line'
+import formatCurrency from "../../helpers/formatCurrency.js";
+
+const Tooltip = ({point}) => {
+    return (
+        <div style={{
+            background: "#18191c",
+            color: "#ffffff",
+            padding: "5px 10px",
+            borderRadius: "2px",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            marginRight: 100
+        }}>
+            <span>{point.data.x} </span>
+            <span style={{color: point.borderColor}}>{formatCurrency(point.data.y)}</span>
+        </div>
+    )
+}
 
 const LineChart = ({ data /* see data tab */ }) => (
     <ResponsiveLine
-        isInteractive={false}
+        tooltip={Tooltip}
+        isInteractive
         theme={{
             "tooltip": {
                 "container": {
@@ -13,6 +33,7 @@ const LineChart = ({ data /* see data tab */ }) => (
             }
         }}
         margin={{top: 5, bottom: 20}}
+        enableCrosshair={false}
         colors={['#4872fb']}
         data={data}
         xScale={{ type: 'point' }}

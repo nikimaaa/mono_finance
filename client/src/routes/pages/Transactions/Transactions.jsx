@@ -23,6 +23,7 @@ import ReservesList from "../Reserves/components/ReservesList/ReservesList.jsx";
 import useNavState from "../../../hooks/useNavState.js";
 import useDebouncedEffect from "use-debounced-effect";
 import dayjs from "dayjs";
+import ListSkeleton from "../../../components/ListSkeleton/ListSkeleton.jsx";
 
 const Transactions = () => {
     const {items: transactions, pagesCount, summary, isFetched} = useSelector(state => state.transactions);
@@ -58,7 +59,7 @@ const Transactions = () => {
 
     const list = useMemo(() => {
         if(!isFetched) {
-            return <Stack alignItems="center"><CircularProgress/></Stack>
+            return <ListSkeleton rowsCount={10} columnsCount={4} gap={20}/>
         }
         const isEmptyList = transactions.length <= 0;
         const isEmptyQuery = Boolean(filters.query.trim());
@@ -99,8 +100,8 @@ const Transactions = () => {
                         imageSrc="/assets/transactions2.webp"
                     />
                     <Stack justifyContent="space-between" direction="row" gap={2} flexWrap="wrap">
-                        <IncomesCard value={summary.incomes / 100}/>
-                        <ExpensesCard value={summary.expenses / 100}/>
+                        <IncomesCard value={summary.incomes / 100} isFetched={summary.isFetched}/>
+                        <ExpensesCard value={summary.expenses / 100} isFetched={summary.isFetched}/>
                     </Stack>
                 </Stack>
 
@@ -123,7 +124,13 @@ const Transactions = () => {
                                 }}
                                 fullWidth
                             />
-                            <Select sx={{minWidth: 200}} value={filters.sort} onChange={onFiltersChange} name="sort">
+                            <Select
+                                sx={{minWidth: 200}}
+                                value={filters.sort}
+                                onChange={onFiltersChange}
+                                name="sort"
+                                disabled={!isFetched}
+                            >
                                 <MenuItem value={"occurredAt-desc"}>Произведено раньше</MenuItem>
                                 <MenuItem value={"occurredAt-asc"}>Произведено позже</MenuItem>
                             </Select>
@@ -138,6 +145,7 @@ const Transactions = () => {
                                 onChange={onPageChange}
                                 showFirstButton
                                 showLastButton
+                                disabled={!isFetched}
                             />
                         </Stack>
                     </Stack>
