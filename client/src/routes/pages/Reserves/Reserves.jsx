@@ -29,6 +29,7 @@ import useDebouncedEffect from "use-debounced-effect";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import useActive from "../../../hooks/useActive.js";
 import EditReserveModal from "./components/EditReserveModal/EditReserveModal.jsx";
+import ListSkeleton from "../../../components/ListSkeleton/ListSkeleton.jsx";
 
 const defaultReserveForm = {
     name: "",
@@ -104,7 +105,7 @@ const Reserves = () => {
 
     const list = useMemo(() => {
         if (!isFetched) {
-            return <Stack alignItems="center"><CircularProgress/></Stack>
+            return <ListSkeleton rowsCount={10} columnsCount={3} gap={10}/>
         }
         if (isFetched && reserves.length === 0) {
             return (
@@ -158,7 +159,13 @@ const Reserves = () => {
                                 }}
                                 fullWidth
                             />
-                            <Select sx={{minWidth: 200}} value={filters.sort} onChange={onFiltersChange} name="sort">
+                            <Select
+                                sx={{minWidth: 200}}
+                                value={filters.sort}
+                                onChange={onFiltersChange}
+                                name="sort"
+                                disabled={!isFetched}
+                            >
                                 <MenuItem value={"createdAt-desc"}>Создано раньше</MenuItem>
                                 <MenuItem value={"createdAt-asc"}>Создано позже</MenuItem>
                                 <MenuItem value={"name-desc"}>Имя по убыванию</MenuItem>
@@ -169,6 +176,7 @@ const Reserves = () => {
                                 color="success"
                                 variant="contained"
                                 onClick={openCreateModal}
+                                disabled={!isFetched}
                             >
                                 Добавить
                             </Button>

@@ -9,7 +9,7 @@ import {
     Toolbar,
     Typography,
     ListItemText,
-    Divider
+    Divider, CircularProgress, Box
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -23,6 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import formatCurrency from "../../../../../helpers/formatCurrency.js";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import FullScreen from "./FullScreen/FullScreen.jsx";
 
 const CategoryStatCard = () => {
     const [modalOpen, openModal, closeModal] = useActive(false);
@@ -42,9 +43,23 @@ const CategoryStatCard = () => {
         }))
     }, [data]);
 
+    const chart = useMemo(() => {
+        if(!isFetched) {
+            return <CircularProgress/>
+        }
+        return (
+            <PieChart
+                margin={8}
+                data={normalizedData}
+                enableArkLabels={false}
+                arcLabel={e => `${e.data.smile} ${e.data.percentage}%`}
+            />
+        )
+    }, [normalizedData, isFetched]);
+
     return (
         <Card
-            sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 0 450px"}}>
+            sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 0 450px", overflow: "visible"}}>
             <Stack justifyContent="space-between" sx={{height: "100%"}} gap={2}>
                 <Stack flexDirection="row" justifyContent="space-between">
                     <Typography variant="h5" component="h4">Расходы по категориям</Typography>
@@ -53,68 +68,21 @@ const CategoryStatCard = () => {
                         color="inherit"
                         onClick={openModal}
                         aria-label="close"
+                        disabled={!isFetched}
                     >
                         <FullscreenIcon/>
                     </IconButton>
                 </Stack>
-                <div style={{height: 300}}>
-                    <PieChart
-                        margin={8}
-                        data={normalizedData}
-                        enableArkLabels={false}
-                        arcLabel={e => `${e.data.smile} ${e.data.percentage}%`}
-                    />
-                </div>
-                <Dialog open={modalOpen} fullScreen sx={{background: "#282B30"}}>
-                    <AppBar sx={{position: 'relative'}}>
-                        <Toolbar>
-                            <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                                Расходы по категориям
-                            </Typography>
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                onClick={closeModal}
-                                aria-label="close"
-                            >
-                                <CloseIcon/>
-                            </IconButton>
-                        </Toolbar>
-                    </AppBar>
-                    <div style={{
-                        flex: "1 1 auto",
-                        background: "#282B30",
-                        display: "flex",
-                        height: "calc(100vh - 64px)",
-                        width: "100%"
-                    }}>
-                        <div
-                            style={{minWidth: 400, borderRight: "2px solid #36393E", height: "100%", overflow: "auto"}}>
-                            <List disablePadding>
-                                {normalizedData
-                                    .sort((item1, item2) => item2.percentage - item1.percentage)
-                                    .map((item) => (
-                                        <React.Fragment key={item.mcc}>
-                                            <ListItem>
-                                                <ListItemText>{item.smile} {item.label}</ListItemText>
-                                                <ListItemText
-                                                    sx={{textAlign: "right"}}>{formatCurrency(item.value)} ({item.percentage}%)</ListItemText>
-                                            </ListItem>
-                                            <Divider/>
-                                        </React.Fragment>
-                                    ))}
-                            </List>
-                        </div>
-                        <div style={{flex: "1 1 auto", padding: 30}}>
-                            <PieChart
-                                margin={20}
-                                data={normalizedData}
-                                arcLabel={e => `${e.data.smile} ${e.label} (${e.data.percentage}%)`}
-                            />
-                        </div>
-                    </div>
-                </Dialog>
+                <Box sx={{
+                    height: 300,
+                    display: "Flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}>
+                    {chart}
+                </Box>
             </Stack>
+            <FullScreen data={normalizedData} onClose={closeModal} open={modalOpen}/>
         </Card>
     )
 }

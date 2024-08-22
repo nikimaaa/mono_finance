@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Card, Stack, Typography} from "@mui/material";
+import {Card, Skeleton, Stack, Typography} from "@mui/material";
 import formatMoney from "../../../../../helpers/formatCurrency.js";
 import Divider from "../../../../../components/Divider/Divider.jsx";
 import {useDispatch, useSelector} from "react-redux";
@@ -21,6 +21,53 @@ const BalanceCard = () => {
     useEffect(() => {
         dispatch(fetchBalance());
     }, []);
+
+    if(isLoading) {
+        return (
+            <Card sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 1 500px"}}>
+                <Stack justifyContent="space-between" sx={{height: "100%"}} gap={2}>
+                    <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                        <Skeleton height={28} width={150}/>
+                        <Skeleton height={28} width={200}/>
+                    </Stack>
+                    <Divider/>
+                    <Stack flexDirection="column" gap={1}>
+                        <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                            <Skeleton height={20} width={150}/>
+                            <Skeleton height={20} width={150}/>
+                        </Stack>
+                        <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                            <Skeleton height={20} width={150}/>
+                            <Skeleton height={20} width={150}/>
+                        </Stack>
+                    </Stack>
+                    <Divider/>
+                    <Stack flexDirection="column" gap={1}>
+                        <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                            <Skeleton height={20} width={150}/>
+                            <Skeleton height={20} width={150}/>
+                        </Stack>
+                        <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                            <Skeleton height={20} width={150}/>
+                            <Skeleton height={20} width={150}/>
+                        </Stack>
+                    </Stack>
+                    <Divider/>
+                    <Stack flexDirection="column" gap={1}>
+                        <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                            <Skeleton height={20} width={150}/>
+                            <Skeleton height={20} width={150}/>
+                        </Stack>
+                        <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                            <Skeleton height={20} width={150}/>
+                            <Skeleton height={20} width={150}/>
+                        </Stack>
+                    </Stack>
+                </Stack>
+            </Card>
+        )
+    }
+
     return (
         <Card sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 1 500px"}}>
             <Stack justifyContent="space-between" sx={{height: "100%"}} gap={2}>

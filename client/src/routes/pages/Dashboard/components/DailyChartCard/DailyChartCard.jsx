@@ -1,5 +1,16 @@
 import React, {useEffect, useMemo} from "react";
-import {Card, Dialog, IconButton, Stack, Toolbar, Typography, AppBar, ListItemText, Divider} from "@mui/material";
+import {
+    Card,
+    Dialog,
+    IconButton,
+    Stack,
+    Toolbar,
+    Typography,
+    AppBar,
+    ListItemText,
+    Divider,
+    CircularProgress
+} from "@mui/material";
 import BarChart from "../../../../../components/BarChart/BarChart.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchTransactionsDailyStat} from "../../../../../store/transactions/transactions.actions.js";
@@ -11,6 +22,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import formatCurrency from "../../../../../helpers/formatCurrency.js";
 import PieChart from "../../../../../components/PieChart/PieChart.jsx";
+import FullScreen from "./FullScreen/FullScreen.jsx";
 
 const DailyChartCard = () => {
     const [modalOpen, openModal, closeModal] = useActive(false);
@@ -31,9 +43,29 @@ const DailyChartCard = () => {
         )
     }, [data]);
 
+    const chart = useMemo(() => {
+        if(!isFetched) {
+            return <CircularProgress/>
+        }
+        return (
+            <BarChart
+                data={normalizedData}
+                indexBy="date"
+                keys={["Доходы", "Расходы"]}
+            />
+        )
+    }, [normalizedData, isFetched]);
+
     return (
         <Card
-            sx={{p: "30px", background: "transparent", border: "2px solid #36393E", borderRadius: 4, flex: "1 1 auto"}}>
+            sx={{
+                p: "30px",
+                background: "transparent",
+                border: "2px solid #36393E",
+                borderRadius: 4,
+                flex: "1 1 auto",
+                overflow: "visible"
+            }}>
             <Stack justifyContent="space-between" sx={{height: "100%"}} gap={2}>
                 <Stack flexDirection="row" justifyContent="space-between">
                     <Typography variant="h5" component="h4">Транзакции по дням</Typography>
@@ -42,74 +74,26 @@ const DailyChartCard = () => {
                         color="inherit"
                         onClick={openModal}
                         aria-label="close"
+                        disabled={!isFetched}
                     >
                         <FullscreenIcon/>
                     </IconButton>
                 </Stack>
-                <div style={{height: 300}}>
-                    <BarChart data={normalizedData} indexBy="date" keys={["Доходы", "Расходы"]}/>
+                <div style={{
+                    height: 300,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                }}>
+                    {chart}
                 </div>
-                <Dialog open={modalOpen} fullScreen>
-                    <AppBar sx={{position: 'relative'}}>
-                        <Toolbar>
-                            <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                                Транзакции по дням
-                            </Typography>
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                onClick={closeModal}
-                                aria-label="close"
-                            >
-                                <CloseIcon/>
-                            </IconButton>
-                        </Toolbar>
-                    </AppBar>
-                    <div style={{
-                        flex: "1 1 auto",
-                        background: "#282B30",
-                        display: "flex",
-                        height: "calc(100vh - 64px)",
-                        width: "100%"
-                    }}>
-                        <div
-                            style={{minWidth: 400, borderRight: "2px solid #36393E", height: "100%", overflow: "auto"}}>
-                            <List disablePadding>
-                                {data
-                                    .map((item, index) => {
-                                        const incomes = (
-                                            <Typography sx={{color: "#66BB6A"}}>
-                                                +{formatCurrency(item.incomes)}
-                                            </Typography>
-                                        );
-                                        const expenses = (
-                                            <Typography sx={{color: "#F44336"}}>
-                                                -{formatCurrency(item.expenses)}
-                                            </Typography>
-                                        )
-                                        return (
-                                            <React.Fragment key={item.mcc}>
-                                                <ListItem>
-                                                    <ListItemText
-                                                        primary={expenses}
-                                                        secondary={incomes}
-                                                    ></ListItemText>
-                                                    <ListItemText sx={{textAlign: "right"}}>
-                                                        {dayjs(item.date).format("DD.MM.YYYY")}
-                                                    </ListItemText>
-                                                </ListItem>
-                                                <Divider/>
-                                            </React.Fragment>
-                                        )
-                                    })}
-                            </List>
-                        </div>
-                        <div style={{flex: "1 1 auto", padding: "30px 0"}}>
-                            <BarChart data={normalizedData} indexBy="date" keys={["Доходы", "Расходы"]}/>
-                        </div>
-                    </div>
-                </Dialog>
             </Stack>
+            <FullScreen
+                open={modalOpen}
+                onClose={closeModal}
+                data={data}
+                normalizedData={normalizedData}
+            />
         </Card>
     )
 }
